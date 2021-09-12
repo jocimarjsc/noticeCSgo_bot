@@ -4,7 +4,7 @@ import fs from "fs";
 import { HLTV } from "hltv";
 
 dotenv.config();
-
+const port = process.env.PORT
 const bot = new Telegraf(process.env.TOKEN_TELEGRAM);
 
 bot.hears("menu", (ctx) => {
