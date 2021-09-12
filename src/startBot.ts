@@ -45,7 +45,7 @@ bot.command("start", (ctx) => {
           {
             text: "Live",
             callback_data: "live",
-          },
+          }
         ],
       ],
     },
