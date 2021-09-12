@@ -1,31 +1,92 @@
-import express from "express";
-import cors from "cors";
 import { Telegraf } from "telegraf";
 import * as dotenv from "dotenv";
-import { routes } from "./routes";
+import fs from "fs";
+import { HLTV } from "hltv";
 
 dotenv.config();
 
-const app = express();
+const bot = new Telegraf(process.env.TOKEN_TELEGRAM);
 
-const bot = new Telegraf(process.env.TOKEN_TELEGRAM, {
-    telegram: {
-        webhookReply: false
+bot.hears("menu", (ctx) => {
+  console.log("Obtendo Menu");
+  ctx.reply("Segue o menu:", {
+    reply_to_message_id: ctx.message.message_id,
+    reply_markup,
+  });
+});
+
+const reply_markup = {
+  one_time_keyboard: true,
+  keyboard: [
+    [
+      {
+        text: "Menu",
+        request_contact: true,
+        one_time_keyboard: true,
+      },
+    ],
+    ["Cancelar"],
+  ],
+};
+
+bot.command("start", (ctx) => {
+  const welcome = "Olá, segue  o menu de opções! 📖";
+  ctx.reply(welcome, {
+    reply_to_message_id: ctx.message.message_id,
+    reply_markup: {
+      inline_keyboard: [
+        [
+          {
+            text: "Ranking",
+            callback_data: "ranking",
+          },
+          {
+            text: "News",
+            callback_data: "news",
+          },
+          {
+            text: "Live",
+            callback_data: "live",
+          },
+        ],
+      ],
+    },
+  });
+});
+
+bot.action("ranking", async (ctx) => {
+  console.log("Obtendo informações");
+  const data = await HLTV.getTeamRanking();
+  const team = data.sort(orderDescByDate)
+  
+  ctx.replyWithHTML(`
+    <b>Rancking 2021</b>\n ${team.map(rancking => {
+      const teams = `${rancking.place} - ${rancking.team.name}\n`
+      return teams
+    }).join(" ")}
+  `)
+});
+
+function orderDescByDate(a: any, b: any) {
+  return a.place - b.place;
+}
+
+bot.action("news", async (ctx) => {
+  ctx.reply("Buscando dados...");
+  const data = await HLTV.getNews();
+
+  const news = data;
+  news.forEach((notice, index) => {
+    if (index + 1 === 1) {
+      ctx.replyWithHTML(`
+      <a href="${process.env.BASE_URL}${notice.link}"><b>${notice.title}</b></a>
+      `);
     }
+  });
 });
 
-bot.on('text', ctx => {
-    return ctx.reply(
-        `Mensagem recebida de: ${ctx.message.from.first_name}`
-    )
-});
+bot.launch();
 
-app.use(cors());
-
-app.use(express.json());
-
-app.use(bot.webhookCallback('/callback'));
-
-app.use(routes);
-
-export { app, bot }
+// Enable graceful stop
+process.once("SIGINT", () => bot.stop("SIGINT"));
+process.once("SIGTERM", () => bot.stop("SIGTERM"));
