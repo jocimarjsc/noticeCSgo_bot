@@ -77,7 +77,7 @@ bot.action("news", async (ctx) => {
 
   const news = data;
   news.forEach((notice, index) => {
-    if (index + 1 === 1) {
+    if (index + 1 <= 5) {
       ctx.replyWithHTML(`
       <a href="${process.env.BASE_URL}${notice.link}"><b>${notice.title}</b></a>
       `);
