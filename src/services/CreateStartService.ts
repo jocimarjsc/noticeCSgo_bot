@@ -27,7 +27,10 @@ Suporte: <b>@jocimarjsc</b>
 
     bot.hears("📣 News", async ctx => {
       const news = await getNews.execute();
-      ctx.replyWithHTML('📣 News'+ news[0].title)
+      const message = `
+      📣 News
+      `
+      ctx.replyWithHTML('📣 News \n'+ news[0].link)
     })
 
     bot.hears("🎥 Live", ctx => {
