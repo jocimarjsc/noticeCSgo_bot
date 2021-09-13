@@ -12,7 +12,7 @@ class CreateBotStartService {
 seja bem vindo ao Bot 🤖
 <b>Counter Strike Global Offencive</b>
 <a href="https://cdn.cloudflare.steamstatic.com/steam/apps/730/header.jpg">...</a>
-Suporte: <b>@jocimajsc</b>`;
+Suporte: <b>@jocimarjsc</b>`;
 
       ctx.replyWithHTML(message, { reply_markup });
     });
