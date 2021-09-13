@@ -1,5 +1,6 @@
 import { Middleware, MiddlewareFn, Telegraf } from "telegraf";
 import CreateButtons from "./CreateButtons";
+import getNews from "./getNews";
 import getRacking from "./getRacking";
 
 
@@ -8,11 +9,13 @@ class CreateBotStartService {
     const reply_markup = await CreateButtons.execute();
     
     bot.start(ctx => {
-      const message = `Olá <b>${ctx.from.first_name},</b>
+      const message = `
+Olá <b>${ctx.from.first_name},</b>
 seja bem vindo ao Bot 🤖
 <b>Counter Strike Global Offencive</b>
 <a href="https://cdn.cloudflare.steamstatic.com/steam/apps/730/header.jpg">...</a>
-Suporte: <b>@jocimarjsc</b>`;
+Suporte: <b>@jocimarjsc</b>
+`;
 
       ctx.replyWithHTML(message, { reply_markup });
     });
@@ -22,8 +25,9 @@ Suporte: <b>@jocimarjsc</b>`;
       ctx.replyWithHTML(racking)
     })
 
-    bot.hears("📣 News", ctx => {
-      ctx.replyWithHTML('📣 News')
+    bot.hears("📣 News", async ctx => {
+      const news = await getNews.execute();
+      ctx.replyWithHTML('📣 News'+ news)
     })
 
     bot.hears("🎥 Live", ctx => {
