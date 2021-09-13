@@ -30,7 +30,7 @@ Suporte: <b>@jocimarjsc</b>
       const message = `
       📣 News
       `
-      ctx.replyWithHTML('📣 News \n'+ news[0].link)
+      ctx.replyWithHTML('📣 News \n'+ process.env.BASE_URL+news[0].link)
     })
 
     bot.hears("🎥 Live", ctx => {
