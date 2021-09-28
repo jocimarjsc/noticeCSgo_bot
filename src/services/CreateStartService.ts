@@ -31,6 +31,11 @@ Suporte: <b>@jocimarjsc</b>
       📣 News
       `
       ctx.replyWithHTML('📣 News \n'+ process.env.BASE_URL+news[0].link)
+      ctx.replyWithHTML('📣 News \n'+ process.env.BASE_URL+news[1].link)
+      ctx.replyWithHTML('📣 News \n'+ process.env.BASE_URL+news[2].link)
+      ctx.replyWithHTML('📣 News \n'+ process.env.BASE_URL+news[3].link)
+      ctx.replyWithHTML('📣 News \n'+ process.env.BASE_URL+news[4].link)
+      ctx.replyWithHTML('📣 News \n'+ process.env.BASE_URL+news[5].link)
     })
 
     bot.hears("🎥 Live", ctx => {
