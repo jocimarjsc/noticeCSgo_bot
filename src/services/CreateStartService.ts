@@ -22,7 +22,18 @@ Suporte: <b>@jocimarjsc</b>
 
     bot.hears("🏆 Ranking", async ctx => {
       const racking =  await getRacking.execute();
-      ctx.replyWithHTML(racking)
+      ctx.replyWithHTML(racking, {
+        reply_markup: {
+          inline_keyboard: [
+            [
+              {
+                text: "Text",
+                callback_data: "Text"
+              }
+            ]
+          ]
+        }
+      })
     })
 
     bot.hears("📣 News", async ctx => {
@@ -32,7 +43,6 @@ Suporte: <b>@jocimarjsc</b>
       ctx.replyWithHTML('📣 News \n'+ process.env.BASE_URL+news[2].link)
       ctx.replyWithHTML('📣 News \n'+ process.env.BASE_URL+news[3].link)
       ctx.replyWithHTML('📣 News \n'+ process.env.BASE_URL+news[4].link)
-      ctx.replyWithHTML('📣 News \n'+ process.env.BASE_URL+news[5].link)
     })
 
     bot.hears("🎥 Live", ctx => {
