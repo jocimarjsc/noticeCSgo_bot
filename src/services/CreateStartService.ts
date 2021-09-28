@@ -27,9 +27,6 @@ Suporte: <b>@jocimarjsc</b>
 
     bot.hears("📣 News", async ctx => {
       const news = await getNews.execute();
-      const message = `
-      📣 News
-      `
       ctx.replyWithHTML('📣 News \n'+ process.env.BASE_URL+news[0].link)
       ctx.replyWithHTML('📣 News \n'+ process.env.BASE_URL+news[1].link)
       ctx.replyWithHTML('📣 News \n'+ process.env.BASE_URL+news[2].link)
