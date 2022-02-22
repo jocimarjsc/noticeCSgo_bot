@@ -1,5 +1,6 @@
 import { Middleware, MiddlewareFn, Telegraf } from "telegraf";
 import CreateButtons from "./CreateButtons";
+import getMatches from "./getMatches";
 import getNews from "./getNews";
 import getRacking from "./getRacking";
 
@@ -49,8 +50,9 @@ Suporte: <b>@jocimarjsc</b>
       ctx.replyWithHTML('🎥 Live')
     })
 
-    bot.hears("🤼‍♂️ Matches", ctx => {
-      ctx.replyWithHTML('🤼‍♂️ Matches')
+    bot.hears("🤼‍♂️ Matches", async ctx => {
+      const data = await getMatches.execute()
+      ctx.replyWithHTML('🤼‍♂️ Matches \n'+data)
     })
 
     bot.hears("👨‍👩‍👧‍👦 Teams", ctx => {
